@@ -3,22 +3,38 @@
 <p>This component demonstrates fetching data from GitHub to get all commits of <b>CrossroadsDemo</b> Repository.</p>
 
 <p *ngIf="!commits"><em>Loading...</em></p>
+<div class="form-group">
+  <input type="text" [(ngModel)]="searchTxt" class="form-control" name="searchTxt" placeholder="Search Committed By, Message" >
+</div>
 
-<table class='table table-striped' *ngIf="commits">
+
+<table class='table table-striped' *ngIf="commits" [mfData]="commits | search:searchTxt" #mf="mfDataTable" [mfRowsOnPage]="5" mfSortOrder="desc" mfSortBy="committedAt">
   <thead>
     <tr>
-      <th>Committed By</th>
-      <th>Committed At</th>
-      <th>Message</th>
-      <th>Details</th>
+      <th class="text-primary"><mfDefaultSorter by="committer">Committed By</mfDefaultSorter></th>
+      <th class="text-primary"><mfDefaultSorter by="committedAt">Committed At</mfDefaultSorter></th>
+      <th class="text-primary"><mfDefaultSorter by="message">Message</mfDefaultSorter></th>
+      <th class="text-primary"><mfDefaultSorter by="htmlUrl">Details</mfDefaultSorter></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let commit of commits">
-      <td>{{ commit.committer }}</td>
-      <td>{{ commit.committedAt }}</td>
-      <td>{{ commit.message }}</td>
-      <td><a href="{{ commit.htmlUrl }}" target="_blank">View</a></td>
+    <tr *ngFor="let commit of mf.data">
+      <ng-container *ngIf="item == -1">
+        <td colspan="4" align="center">No Data Found</td>
+      </ng-container>
+      <ng-container *ngIf="item!=-1">
+        <td>{{ commit.committer }}</td>
+        <td>{{ commit.committedAt }}</td>
+        <td>{{ commit.message }}</td>
+        <td><a href="{{ commit.htmlUrl }}" target="_blank">View</a></td>
+      </ng-container>
     </tr>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">
+        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+      </td>
+    </tr>
+  </tfoot>
 </table>

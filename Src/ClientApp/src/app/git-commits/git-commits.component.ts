@@ -6,11 +6,11 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './git-commits.component.html'
 })
 export class GitCommitsComponent {
+  public searchTxt: string;
   public commits: GitCommitsViewModel[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     http.get<GitCommitsViewModel[]>(baseUrl + 'api/GitCommits/GetCommits').subscribe(result => {
-      debugger;
       this.commits = result;
     }, error => console.error(error));
   }

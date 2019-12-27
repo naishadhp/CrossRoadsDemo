@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CrossroadsDemo.Controllers
 {
     /// <summary>
-    /// 
+    /// Git Commits Controller
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     /// <seealso cref="Controller" />
@@ -44,6 +44,14 @@ namespace CrossroadsDemo.Controllers
         private long _gitRepository { get; set; }
 
         /// <summary>
+        /// Gets or sets the git API URL.
+        /// </summary>
+        /// <value>
+        /// The git API URL.
+        /// </value>
+        private string _gitApiUrl { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GitCommitsController"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
@@ -53,6 +61,7 @@ namespace CrossroadsDemo.Controllers
             _gitUserName = _config.GetValue<string>("GitSettings:GitUsername");
             _gitPassword = _config.GetValue<string>("GitSettings:GitPassword");
             _gitRepository = _config.GetValue<long>("GitSettings:GitRepositoryId");
+            _gitApiUrl = _config.GetValue<string>("GitSettings:GitApiUrl");
         }
 
         /// <summary>
@@ -65,7 +74,7 @@ namespace CrossroadsDemo.Controllers
         {
             try
             {
-                GitHubClient client = new GitHubClient(new ProductHeaderValue("SampleApp"), new Uri("https://api.github.com/"));
+                GitHubClient client = new GitHubClient(new ProductHeaderValue("CrossRoadsApp"), new Uri(_gitApiUrl));
                 client.Credentials = new Credentials(_gitUserName, _gitPassword);
 
                 // Current Repository => repoId = 230391516 

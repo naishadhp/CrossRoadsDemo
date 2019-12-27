@@ -1,0 +1,24 @@
+<h1>CrossroadsDemo Commits</h1>
+
+<p>This component demonstrates fetching data from GitHub to get all commits of <b>CrossroadsDemo</b> Repository.</p>
+
+<p *ngIf="!commits"><em>Loading...</em></p>
+
+<table class='table table-striped' *ngIf="commits">
+  <thead>
+    <tr>
+      <th>Committed By</th>
+      <th>Committed At</th>
+      <th>Message</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let commit of commits">
+      <td>{{ commit.committer }}</td>
+      <td>{{ commit.committedAt }}</td>
+      <td>{{ commit.message }}</td>
+      <td><a href="{{ commit.htmlUrl }}" target="_blank">View</a></td>
+    </tr>
+  </tbody>
+</table>

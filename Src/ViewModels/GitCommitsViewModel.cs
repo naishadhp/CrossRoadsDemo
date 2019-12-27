@@ -1,5 +1,8 @@
 ﻿namespace CrossroadsDemo.ViewModels
 {
+    /// <summary>
+    /// Git Commits View Model
+    /// </summary>
     public class GitCommitsViewModel
     {
         public string Committer { get; set; }
